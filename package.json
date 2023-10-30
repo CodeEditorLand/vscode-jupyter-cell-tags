@@ -1,149 +1,149 @@
 {
-  "name": "vscode-jupyter-cell-tags",
-  "displayName": "Jupyter Cell Tags",
-  "version": "0.0.1",
-  "private": "false",
-  "description": "Jupyter Cell Tags support for VS Code",
-  "categories": [
-    "Notebooks"
-  ],
-  "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
-  "bugs": {
-    "url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Nikola Hristov",
-    "email": "nikola@nikolahristov.tech",
-    "url": "https://nikolahristov.tech"
-  },
-  "publisher": "playform",
-  "type": "module",
-  "main": "./out/extension-node.js",
-  "browser": "./out/extension-web.js",
-  "scripts": {
-    "compile": "webpack --mode none",
-    "lint": "eslint src --ext ts",
-    "prepublishOnly": "TypeScriptESBuild Source/**/*.ts",
-    "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js",
-    "vscode:prepublish": "npm run compile",
-    "watch": "webpack --mode none --watch"
-  },
-  "contributes": {
-    "commands": [
-      {
-        "command": "jupyter-cell-tags.removeTag",
-        "title": "Remove Cell Tag",
-        "icon": "$(close)"
-      },
-      {
-        "command": "jupyter-cell-tags.addTag",
-        "title": "Add Cell Tag",
-        "icon": "$(add)"
-      },
-      {
-        "command": "jupyter-cell-tags.editTagsInJSON",
-        "title": "Edit Cell Tags (JSON)",
-        "icon": "$(go-to-file)"
-      },
-      {
-        "command": "jupyter-cell-tags.paramaterize",
-        "title": "Mark Cell as Parameters"
-      }
-    ],
-    "menus": {
-      "notebook/cell/title": [
-        {
-          "command": "jupyter-cell-tags.addTag",
-          "group": "jupytercelltags@1"
-        },
-        {
-          "command": "jupyter-cell-tags.editTagsInJSON",
-          "group": "jupytercelltags@2"
-        },
-        {
-          "command": "jupyter-cell-tags.paramaterize",
-          "group": "jupytercelltags@2"
-        }
-      ],
-      "view/title": [
-        {
-          "command": "jupyter-cell-tags.addTag",
-          "when": "view == cell-tag",
-          "group": "navigation"
-        },
-        {
-          "command": "jupyter-cell-tags.editTagsInJSON",
-          "when": "view == cell-tag",
-          "group": "navigation"
-        }
-      ],
-      "view/item/context": [
-        {
-          "command": "jupyter-cell-tags.removeTag",
-          "when": "view == cell-tag",
-          "group": "inline"
-        }
-      ]
-    },
-    "views": {
-      "jupyter-variables": [
-        {
-          "id": "cell-tag",
-          "name": "Cell Tags",
-          "type": "tree",
-          "icon": "$(tag)",
-          "when": "jupyter:showTagsExplorer && jupyter.hasNativeNotebookOrInteractiveWindowOpen",
-          "visibility": "collapsed"
-        }
-      ]
-    },
-    "viewsWelcome": [
-      {
-        "view": "cell-tag",
-        "contents": "No tags found for the selected cell. Use the [Add Cell Tag](command:jupyter-cell-tags.addTag) command to add tags."
-      }
-    ]
-  },
-  "activationEvents": [
-    "onNotebook:jupyter-notebook",
-    "onCommand:jupyter-cell-tags.removeTag",
-    "onCommand:jupyter-cell-tags.addTag",
-    "onCommand:jupyter-cell-tags.editTagsInJSON",
-    "onCommand:jupyter-cell-tags.paramaterize"
-  ],
-  "devDependencies": {
-    "@types/glob": "8.1.0",
-    "@types/mocha": "10.0.3",
-    "@types/node": "20.x",
-    "@types/vscode": "1.83.1",
-    "@typescript-eslint/eslint-plugin": "6.9.0",
-    "@typescript-eslint/parser": "6.9.0",
-    "eslint": "8.52.0",
-    "glob": "10.3.10",
-    "mocha": "10.2.0",
-    "ts-loader": "9.5.0",
-    "typescript": "5.2.2",
-    "typescript-esbuild": "0.3.1",
-    "vscode-test": "1.5.2",
-    "webpack": "5.89.0",
-    "webpack-cli": "5.1.4"
-  },
-  "engines": {
-    "vscode": "1.72.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "icon": "icon.png",
-  "galleryBanner": {
-    "color": "#ffffff",
-    "theme": "light"
-  },
-  "preview": true
+	"name": "vscode-jupyter-cell-tags",
+	"displayName": "Jupyter Cell Tags",
+	"version": "0.0.1",
+	"private": "false",
+	"description": "Jupyter Cell Tags support for VS Code",
+	"categories": [
+		"Notebooks"
+	],
+	"homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
+	"bugs": {
+		"url": "https://github.com/CodeEditorLand/CodeEditorLand/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CodeEditorLand/CodeEditorLand.git"
+	},
+	"license": "MIT",
+	"author": {
+		"name": "Nikola Hristov",
+		"email": "nikola@nikolahristov.tech",
+		"url": "https://nikolahristov.tech"
+	},
+	"publisher": "playform",
+	"type": "module",
+	"main": "./out/extension-node.js",
+	"browser": "./out/extension-web.js",
+	"scripts": {
+		"compile": "webpack --mode none",
+		"lint": "eslint src --ext ts",
+		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js",
+		"vscode:prepublish": "npm run compile",
+		"watch": "webpack --mode none --watch"
+	},
+	"contributes": {
+		"commands": [
+			{
+				"command": "jupyter-cell-tags.removeTag",
+				"title": "Remove Cell Tag",
+				"icon": "$(close)"
+			},
+			{
+				"command": "jupyter-cell-tags.addTag",
+				"title": "Add Cell Tag",
+				"icon": "$(add)"
+			},
+			{
+				"command": "jupyter-cell-tags.editTagsInJSON",
+				"title": "Edit Cell Tags (JSON)",
+				"icon": "$(go-to-file)"
+			},
+			{
+				"command": "jupyter-cell-tags.paramaterize",
+				"title": "Mark Cell as Parameters"
+			}
+		],
+		"menus": {
+			"notebook/cell/title": [
+				{
+					"command": "jupyter-cell-tags.addTag",
+					"group": "jupytercelltags@1"
+				},
+				{
+					"command": "jupyter-cell-tags.editTagsInJSON",
+					"group": "jupytercelltags@2"
+				},
+				{
+					"command": "jupyter-cell-tags.paramaterize",
+					"group": "jupytercelltags@2"
+				}
+			],
+			"view/title": [
+				{
+					"command": "jupyter-cell-tags.addTag",
+					"when": "view == cell-tag",
+					"group": "navigation"
+				},
+				{
+					"command": "jupyter-cell-tags.editTagsInJSON",
+					"when": "view == cell-tag",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "jupyter-cell-tags.removeTag",
+					"when": "view == cell-tag",
+					"group": "inline"
+				}
+			]
+		},
+		"views": {
+			"jupyter-variables": [
+				{
+					"id": "cell-tag",
+					"name": "Cell Tags",
+					"type": "tree",
+					"icon": "$(tag)",
+					"when": "jupyter:showTagsExplorer && jupyter.hasNativeNotebookOrInteractiveWindowOpen",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "cell-tag",
+				"contents": "No tags found for the selected cell. Use the [Add Cell Tag](command:jupyter-cell-tags.addTag) command to add tags."
+			}
+		]
+	},
+	"activationEvents": [
+		"onNotebook:jupyter-notebook",
+		"onCommand:jupyter-cell-tags.removeTag",
+		"onCommand:jupyter-cell-tags.addTag",
+		"onCommand:jupyter-cell-tags.editTagsInJSON",
+		"onCommand:jupyter-cell-tags.paramaterize"
+	],
+	"devDependencies": {
+		"@types/glob": "8.1.0",
+		"@types/mocha": "10.0.3",
+		"@types/node": "20.x",
+		"@types/vscode": "1.83.1",
+		"@typescript-eslint/eslint-plugin": "6.9.0",
+		"@typescript-eslint/parser": "6.9.0",
+		"eslint": "8.52.0",
+		"glob": "10.3.10",
+		"mocha": "10.2.0",
+		"ts-loader": "9.5.0",
+		"typescript": "5.2.2",
+		"typescript-esbuild": "0.3.1",
+		"vscode-test": "1.5.2",
+		"webpack": "5.89.0",
+		"webpack-cli": "5.1.4"
+	},
+	"engines": {
+		"vscode": "1.72.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"icon": "icon.png",
+	"galleryBanner": {
+		"color": "#ffffff",
+		"theme": "light"
+	},
+	"preview": true
 }
