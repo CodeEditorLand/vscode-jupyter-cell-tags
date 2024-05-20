@@ -2,29 +2,52 @@
 	"name": "vscode-jupyter-cell-tags",
 	"displayName": "Jupyter Cell Tags",
 	"description": "Jupyter Cell Tags support for VS Code",
+	"version": "0.1.9",
+	"publisher": "ms-toolsai",
+	"preview": true,
+	"icon": "icon.png",
+	"galleryBanner": {
+		"color": "#ffffff",
+		"theme": "light"
+	},
+	"author": {
+		"name": "Microsoft Corporation"
+	},
+	"engines": {
+		"vscode": "^1.88.0"
+	},
+	"categories": [
+		"Notebooks"
+	],
+	"activationEvents": [
+		"onNotebook:jupyter-notebook",
+		"onCommand:jupyter-cell-tags.removeTag",
+		"onCommand:jupyter-cell-tags.addTag",
+		"onCommand:jupyter-cell-tags.editTagsInJSON",
+		"onCommand:jupyter-cell-tags.paramaterize"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/vscode-jupyter-cell-tags"
+	},
 	"main": "./out/extension-node.js",
 	"browser": "./out/extension-web.js",
-	"scripts": {
-		"Document": "Document 'Source/**/*.ts'",
-		"compile": "webpack --mode none",
-		"prepublishOnly": "Build 'Source/**/*.ts'"
-	},
 	"contributes": {
 		"commands": [
 			{
 				"command": "jupyter-cell-tags.removeTag",
-				"icon": "$(close)",
-				"title": "Remove Cell Tag"
+				"title": "Remove Cell Tag",
+				"icon": "$(close)"
 			},
 			{
 				"command": "jupyter-cell-tags.addTag",
-				"icon": "$(add)",
-				"title": "Add Cell Tag"
+				"title": "Add Cell Tag",
+				"icon": "$(add)"
 			},
 			{
 				"command": "jupyter-cell-tags.editTagsInJSON",
-				"icon": "$(go-to-file)",
-				"title": "Edit Cell Tags (JSON)"
+				"title": "Edit Cell Tags (JSON)",
+				"icon": "$(go-to-file)"
 			},
 			{
 				"command": "jupyter-cell-tags.paramaterize",
@@ -46,63 +69,67 @@
 					"group": "jupytercelltags@2"
 				}
 			],
-			"view/item/context": [
-				{
-					"command": "jupyter-cell-tags.removeTag",
-					"group": "inline",
-					"when": "view == cell-tag"
-				}
-			],
 			"view/title": [
 				{
 					"command": "jupyter-cell-tags.addTag",
-					"group": "navigation",
-					"when": "view == cell-tag"
+					"when": "view == cell-tag",
+					"group": "navigation"
 				},
 				{
 					"command": "jupyter-cell-tags.editTagsInJSON",
-					"group": "navigation",
-					"when": "view == cell-tag"
+					"when": "view == cell-tag",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "jupyter-cell-tags.removeTag",
+					"when": "view == cell-tag",
+					"group": "inline"
 				}
 			]
 		},
 		"views": {
 			"jupyter-variables": [
 				{
-					"icon": "$(tag)",
 					"id": "cell-tag",
 					"name": "Cell Tags",
 					"type": "tree",
-					"visibility": "collapsed",
-					"when": "jupyter:showTagsExplorer && jupyter.hasNativeNotebookOrInteractiveWindowOpen"
+					"icon": "$(tag)",
+					"when": "jupyter:showTagsExplorer && jupyter.hasNativeNotebookOrInteractiveWindowOpen",
+					"visibility": "collapsed"
 				}
 			]
 		},
 		"viewsWelcome": [
 			{
-				"contents": "No tags found for the selected cell. Use the [Add Cell Tag](command:jupyter-cell-tags.addTag) command to add tags.",
-				"view": "cell-tag"
+				"view": "cell-tag",
+				"contents": "No tags found for the selected cell. Use the [Add Cell Tag](command:jupyter-cell-tags.addTag) command to add tags."
 			}
 		]
 	},
-	"activationEvents": [
-		"onNotebook:jupyter-notebook",
-		"onCommand:jupyter-cell-tags.removeTag",
-		"onCommand:jupyter-cell-tags.addTag",
-		"onCommand:jupyter-cell-tags.editTagsInJSON",
-		"onCommand:jupyter-cell-tags.paramaterize"
-	],
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "webpack --mode none",
+		"watch": "webpack --mode none --watch",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
 	"devDependencies": {
-		"@playform/build": "0.0.7",
-		"@types/glob": "8.1.0",
-		"@types/node": "20.x",
-		"glob": "10.3.12",
-		"ts-loader": "9.5.1"
-	},
-	"icon": "icon.png",
-	"galleryBanner": {
-		"color": "#ffffff",
-		"theme": "light"
-	},
-	"preview": true
+		"@types/vscode": "^1.72.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.2.2",
+		"@types/node": "14.x",
+		"eslint": "^7.27.0",
+		"@typescript-eslint/eslint-plugin": "^4.26.0",
+		"@typescript-eslint/parser": "^4.26.0",
+		"glob": "^7.1.7",
+		"mocha": "^10.0.0",
+		"typescript": "^4.3.2",
+		"vscode-test": "^1.5.2",
+		"ts-loader": "^9.1.1",
+		"webpack": "^5.36.2",
+		"webpack-cli": "^4.6.0"
+	}
 }
