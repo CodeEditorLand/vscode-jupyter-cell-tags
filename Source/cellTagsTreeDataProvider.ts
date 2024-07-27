@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as vscode from 'vscode';
-import { getCellTags } from './helper';
+import * as vscode from "vscode";
+import { getCellTags } from "./helper";
 
 export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
-	private _onDidChangeTreeData: vscode.EventEmitter<void> = new vscode.EventEmitter<void>();
+	private _onDidChangeTreeData: vscode.EventEmitter<void> =
+		new vscode.EventEmitter<void>();
 	onDidChangeTreeData: vscode.Event<void> = this._onDidChangeTreeData.event;
 
 	private _tags: string[] = [];
@@ -14,35 +15,47 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 	constructor() {
 		this._tags = [];
 
-		this._disposables.push(vscode.window.onDidChangeActiveNotebookEditor(e => {
-			this.registerEditorListeners(e);
-		}));
+		this._disposables.push(
+			vscode.window.onDidChangeActiveNotebookEditor((e) => {
+				this.registerEditorListeners(e);
+			}),
+		);
 
 		if (vscode.window.activeNotebookEditor) {
 			this.registerEditorListeners(vscode.window.activeNotebookEditor);
 		}
 	}
 
-	private async registerEditorListeners(editor: vscode.NotebookEditor | undefined) {
-		this._editorDisposables.forEach(d => d.dispose());
+	private async registerEditorListeners(
+		editor: vscode.NotebookEditor | undefined,
+	) {
+		this._editorDisposables.forEach((d) => d.dispose());
 
 		if (!editor) {
 			return;
 		}
 
-		if (editor.notebook.notebookType !== 'jupyter-notebook') {
+		if (editor.notebook.notebookType !== "jupyter-notebook") {
 			return;
 		}
 
-		await vscode.commands.executeCommand('setContext', 'jupyter:showTagsExplorer', true);
+		await vscode.commands.executeCommand(
+			"setContext",
+			"jupyter:showTagsExplorer",
+			true,
+		);
 
 		this._editorDisposables = [];
-		this._editorDisposables.push(vscode.window.onDidChangeNotebookEditorSelection(e => {
-			this.updateTags(editor);
-		}));
-		this._editorDisposables.push(vscode.workspace.onDidChangeNotebookDocument(e => {
-			this.updateTags(editor);
-		}));
+		this._editorDisposables.push(
+			vscode.window.onDidChangeNotebookEditorSelection((e) => {
+				this.updateTags(editor);
+			}),
+		);
+		this._editorDisposables.push(
+			vscode.workspace.onDidChangeNotebookDocument((e) => {
+				this.updateTags(editor);
+			}),
+		);
 		this.updateTags(editor);
 	}
 
@@ -92,13 +105,15 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 	}
 
 	dispose() {
-		this._editorDisposables.forEach(d => d.dispose());
-		this._disposables.forEach(d => d.dispose());
+		this._editorDisposables.forEach((d) => d.dispose());
+		this._disposables.forEach((d) => d.dispose());
 	}
 }
 
 export function register(context: vscode.ExtensionContext) {
 	// register tree view for tags on the sidebar
 	const treeDataProvider = new TagTreeDataProvider();
-	context.subscriptions.push(vscode.window.registerTreeDataProvider('cell-tag', treeDataProvider));
+	context.subscriptions.push(
+		vscode.window.registerTreeDataProvider("cell-tag", treeDataProvider),
+	);
 }
