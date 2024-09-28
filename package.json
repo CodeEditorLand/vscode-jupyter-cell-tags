@@ -1,12 +1,12 @@
 {
-	"name": "vscode-jupyter-cell-tags",
-	"displayName": "Jupyter Cell Tags",
-	"description": "Jupyter Cell Tags support for VS Code",
-	"main": "./out/extension-node.js",
+	"activationEvents": [
+		"onNotebook:jupyter-notebook",
+		"onCommand:jupyter-cell-tags.removeTag",
+		"onCommand:jupyter-cell-tags.addTag",
+		"onCommand:jupyter-cell-tags.editTagsInJSON",
+		"onCommand:jupyter-cell-tags.paramaterize"
+	],
 	"browser": "./out/extension-web.js",
-	"scripts": {
-		"compile": "webpack --mode none"
-	},
 	"contributes": {
 		"commands": [
 			{
@@ -83,23 +83,23 @@
 			}
 		]
 	},
-	"activationEvents": [
-		"onNotebook:jupyter-notebook",
-		"onCommand:jupyter-cell-tags.removeTag",
-		"onCommand:jupyter-cell-tags.addTag",
-		"onCommand:jupyter-cell-tags.editTagsInJSON",
-		"onCommand:jupyter-cell-tags.paramaterize"
-	],
+	"description": "Jupyter Cell Tags support for VS Code",
 	"devDependencies": {
 		"@types/glob": "8.1.0",
 		"@types/node": "22.x",
 		"glob": "11.0.0",
 		"ts-loader": "9.5.1"
 	},
-	"icon": "icon.png",
+	"displayName": "Jupyter Cell Tags",
 	"galleryBanner": {
 		"color": "#ffffff",
 		"theme": "light"
 	},
-	"preview": true
+	"icon": "icon.png",
+	"main": "./out/extension-node.js",
+	"name": "vscode-jupyter-cell-tags",
+	"preview": true,
+	"scripts": {
+		"compile": "webpack --mode none"
+	}
 }
