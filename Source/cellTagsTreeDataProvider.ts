@@ -13,6 +13,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 	private _tags: string[] = [];
 	private _disposables: vscode.Disposable[] = [];
 	private _editorDisposables: vscode.Disposable[] = [];
+
 	constructor() {
 		this._tags = [];
 
@@ -65,6 +66,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 		if (!editor) {
 			this._tags = [];
 			this._onDidChangeTreeData.fire();
+
 			return;
 		}
 
@@ -78,9 +80,11 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 		}
 
 		const activeCell = editor.notebook.cellAt(editor.selections[0].start);
+
 		if (!activeCell) {
 			this._tags = [];
 			this._onDidChangeTreeData.fire();
+
 			return;
 		}
 

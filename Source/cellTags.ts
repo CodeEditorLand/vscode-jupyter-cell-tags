@@ -8,7 +8,9 @@ import * as json from "./json";
 
 export async function addCellTag(cell: vscode.NotebookCell, tags: string[]) {
 	const oldTags = getCellTags(cell);
+
 	const newTags: string[] = [];
+
 	for (const tag of tags) {
 		if (!oldTags.includes(tag)) {
 			newTags.push(tag);
@@ -29,6 +31,7 @@ export class CellTagStatusBarProvider
 		token: vscode.CancellationToken,
 	): vscode.ProviderResult<vscode.NotebookCellStatusBarItem[]> {
 		const items: vscode.NotebookCellStatusBarItem[] = [];
+
 		getCellTags(cell).forEach((tag: string) => {
 			items.push({
 				text: "$(close) " + tag,
@@ -63,6 +66,7 @@ export class CellTagStatusBarProvider
 export function getActiveCell() {
 	// find active cell
 	const editor = vscode.window.activeNotebookEditor;
+
 	if (!editor) {
 		return;
 	}
@@ -93,13 +97,16 @@ export function reviveCell(
 
 	if (args && "scheme" in args && "path" in args) {
 		const cellUri = vscode.Uri.from(args);
+
 		const cellUriStr = cellUri.toString();
+
 		let activeCell: vscode.NotebookCell | undefined = undefined;
 
 		for (const document of vscode.workspace.notebookDocuments) {
 			for (const cell of document.getCells()) {
 				if (cell.document.uri.toString() === cellUriStr) {
 					activeCell = cell;
+
 					break;
 				}
 			}
@@ -127,6 +134,7 @@ export function register(context: vscode.ExtensionContext) {
 			"jupyter-cell-tags.removeTag",
 			async (cell: vscode.NotebookCell | string, tag: string) => {
 				let activeCell: vscode.NotebookCell | undefined;
+
 				if (typeof cell === "string") {
 					// find active cell
 					activeCell = getActiveCell();
@@ -142,6 +150,7 @@ export function register(context: vscode.ExtensionContext) {
 				const tags = getCellTags(activeCell);
 				// remove tag from tags
 				const index = tags.indexOf(tag);
+
 				if (index > -1) {
 					tags.splice(index, 1);
 					await updateCellTags(activeCell, tags);
@@ -176,6 +185,7 @@ export function register(context: vscode.ExtensionContext) {
 			"jupyter-cell-tags.paramaterize",
 			async (cell: vscode.NotebookCell | vscode.Uri | undefined) => {
 				cell = reviveCell(cell);
+
 				if (!cell) {
 					return;
 				}
@@ -189,23 +199,31 @@ export function register(context: vscode.ExtensionContext) {
 			"jupyter-cell-tags.editTagsInJSON",
 			async (cell: vscode.NotebookCell | vscode.Uri | undefined) => {
 				cell = reviveCell(cell);
+
 				if (!cell) {
 					return;
 				}
 				const resourceUri = cell.notebook.uri;
+
 				const document =
 					await vscode.workspace.openTextDocument(resourceUri);
+
 				const tree = json.parseTree(document.getText());
+
 				const cells = json.findNodeAtLocation(tree, ["cells"]);
+
 				if (cells && cells.children && cells.children[cell.index]) {
 					const cellNode = cells.children[cell.index];
+
 					const metadata = json.findNodeAtLocation(cellNode, [
 						"metadata",
 					]);
+
 					if (metadata) {
 						const tags = json.findNodeAtLocation(metadata, [
 							"tags",
 						]);
+
 						if (tags) {
 							const range = new vscode.Range(
 								document.positionAt(tags.offset),

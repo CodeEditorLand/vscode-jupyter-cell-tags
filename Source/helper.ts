@@ -8,6 +8,7 @@ export function getCellTags(cell: vscode.NotebookCell): string[] {
 		(useCustomMetadata()
 			? cell.metadata.custom?.metadata?.tags
 			: cell.metadata.metadata?.tags) ?? [];
+
 	return [...currentTags];
 }
 
@@ -16,21 +17,25 @@ export async function updateCellTags(
 	tags: string[],
 ) {
 	const metadata = JSON.parse(JSON.stringify(cell.metadata));
+
 	if (useCustomMetadata()) {
 		metadata.custom = metadata.custom || {};
 		metadata.custom.metadata = metadata.custom.metadata || {};
 		metadata.custom.metadata.tags = tags;
+
 		if (tags.length === 0) {
 			delete metadata.custom.metadata.tags;
 		}
 	} else {
 		metadata.metadata = metadata.metadata || {};
 		metadata.metadata.tags = tags;
+
 		if (tags.length === 0) {
 			delete metadata.metadata.tags;
 		}
 	}
 	const edit = new vscode.WorkspaceEdit();
+
 	const nbEdit = vscode.NotebookEdit.updateCellMetadata(
 		cell.index,
 		sortObjectPropertiesRecursively(metadata),
@@ -68,6 +73,7 @@ function sortObjectPropertiesRecursively(obj: any): any {
 			.sort()
 			.reduce<Record<string, any>>((sortedObj, prop) => {
 				sortedObj[prop] = sortObjectPropertiesRecursively(obj[prop]);
+
 				return sortedObj;
 			}, {}) as any;
 	}
