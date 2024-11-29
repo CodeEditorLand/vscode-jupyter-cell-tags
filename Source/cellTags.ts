@@ -16,6 +16,7 @@ export async function addCellTag(cell: vscode.NotebookCell, tags: string[]) {
 			newTags.push(tag);
 		}
 	}
+
 	if (newTags.length) {
 		oldTags.push(...newTags);
 	}
@@ -129,6 +130,7 @@ export function register(context: vscode.ExtensionContext) {
 			new CellTagStatusBarProvider(),
 		),
 	);
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand(
 			"jupyter-cell-tags.removeTag",
@@ -138,6 +140,7 @@ export function register(context: vscode.ExtensionContext) {
 				if (typeof cell === "string") {
 					// find active cell
 					activeCell = getActiveCell();
+
 					tag = cell;
 				} else {
 					activeCell = cell;
@@ -153,6 +156,7 @@ export function register(context: vscode.ExtensionContext) {
 
 				if (index > -1) {
 					tags.splice(index, 1);
+
 					await updateCellTags(activeCell, tags);
 				}
 			},
@@ -189,6 +193,7 @@ export function register(context: vscode.ExtensionContext) {
 				if (!cell) {
 					return;
 				}
+
 				await addCellTag(cell, ["parameters"]);
 			},
 		),
@@ -203,6 +208,7 @@ export function register(context: vscode.ExtensionContext) {
 				if (!cell) {
 					return;
 				}
+
 				const resourceUri = cell.notebook.uri;
 
 				const document =
@@ -229,6 +235,7 @@ export function register(context: vscode.ExtensionContext) {
 								document.positionAt(tags.offset),
 								document.positionAt(tags.offset + tags.length),
 							);
+
 							await vscode.window.showTextDocument(document, {
 								selection: range,
 								viewColumn: vscode.ViewColumn.Beside,
@@ -240,6 +247,7 @@ export function register(context: vscode.ExtensionContext) {
 									metadata.offset + metadata.length,
 								),
 							);
+
 							await vscode.window.showTextDocument(document, {
 								selection: range,
 								viewColumn: vscode.ViewColumn.Beside,
@@ -252,6 +260,7 @@ export function register(context: vscode.ExtensionContext) {
 								cellNode.offset + cellNode.length,
 							),
 						);
+
 						await vscode.window.showTextDocument(document, {
 							selection: range,
 							viewColumn: vscode.ViewColumn.Beside,

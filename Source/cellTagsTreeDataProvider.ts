@@ -8,10 +8,13 @@ import { getCellTags } from "./helper";
 export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 	private _onDidChangeTreeData: vscode.EventEmitter<void> =
 		new vscode.EventEmitter<void>();
+
 	onDidChangeTreeData: vscode.Event<void> = this._onDidChangeTreeData.event;
 
 	private _tags: string[] = [];
+
 	private _disposables: vscode.Disposable[] = [];
+
 	private _editorDisposables: vscode.Disposable[] = [];
 
 	constructor() {
@@ -48,16 +51,19 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 		);
 
 		this._editorDisposables = [];
+
 		this._editorDisposables.push(
 			vscode.window.onDidChangeNotebookEditorSelection((e) => {
 				this.updateTags(editor);
 			}),
 		);
+
 		this._editorDisposables.push(
 			vscode.workspace.onDidChangeNotebookDocument((e) => {
 				this.updateTags(editor);
 			}),
 		);
+
 		this.updateTags(editor);
 	}
 
@@ -65,6 +71,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 		// clear if no editor
 		if (!editor) {
 			this._tags = [];
+
 			this._onDidChangeTreeData.fire();
 
 			return;
@@ -83,6 +90,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 
 		if (!activeCell) {
 			this._tags = [];
+
 			this._onDidChangeTreeData.fire();
 
 			return;
@@ -90,7 +98,9 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 
 		// get tags
 		const tags = getCellTags(activeCell);
+
 		this._tags = tags;
+
 		this._onDidChangeTreeData.fire();
 	}
 
@@ -111,6 +121,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 
 	dispose() {
 		this._editorDisposables.forEach((d) => d.dispose());
+
 		this._disposables.forEach((d) => d.dispose());
 	}
 }
@@ -118,6 +129,7 @@ export class TagTreeDataProvider implements vscode.TreeDataProvider<string> {
 export function register(context: vscode.ExtensionContext) {
 	// register tree view for tags on the sidebar
 	const treeDataProvider = new TagTreeDataProvider();
+
 	context.subscriptions.push(
 		vscode.window.registerTreeDataProvider("cell-tag", treeDataProvider),
 	);

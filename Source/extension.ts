@@ -8,6 +8,7 @@ import { register as registerCellTagsView } from "./cellTagsTreeDataProvider";
 
 export function activate(context: vscode.ExtensionContext) {
 	registerCellTags(context);
+
 	registerCellTagsView(context);
 }
 

@@ -20,7 +20,9 @@ export async function updateCellTags(
 
 	if (useCustomMetadata()) {
 		metadata.custom = metadata.custom || {};
+
 		metadata.custom.metadata = metadata.custom.metadata || {};
+
 		metadata.custom.metadata.tags = tags;
 
 		if (tags.length === 0) {
@@ -28,19 +30,23 @@ export async function updateCellTags(
 		}
 	} else {
 		metadata.metadata = metadata.metadata || {};
+
 		metadata.metadata.tags = tags;
 
 		if (tags.length === 0) {
 			delete metadata.metadata.tags;
 		}
 	}
+
 	const edit = new vscode.WorkspaceEdit();
 
 	const nbEdit = vscode.NotebookEdit.updateCellMetadata(
 		cell.index,
 		sortObjectPropertiesRecursively(metadata),
 	);
+
 	edit.set(cell.notebook.uri, [nbEdit]);
+
 	await vscode.workspace.applyEdit(edit);
 }
 
@@ -51,6 +57,7 @@ function useCustomMetadata() {
 	) {
 		return false;
 	}
+
 	return true;
 }
 
@@ -63,6 +70,7 @@ function sortObjectPropertiesRecursively(obj: any): any {
 	if (Array.isArray(obj)) {
 		return obj.map(sortObjectPropertiesRecursively);
 	}
+
 	if (
 		obj !== undefined &&
 		obj !== null &&
@@ -77,5 +85,6 @@ function sortObjectPropertiesRecursively(obj: any): any {
 				return sortedObj;
 			}, {}) as any;
 	}
+
 	return obj;
 }
